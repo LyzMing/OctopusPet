@@ -2,6 +2,7 @@
 """Minimal PSD parser: prints header info and layer records (name, rect, visibility)."""
 import struct
 import sys
+import os
 
 def read_psd_layers(path):
     with open(path, 'rb') as f:

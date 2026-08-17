@@ -4,15 +4,15 @@
 winexe
 C#
 .cs
-D:\TestToys\OctopusPet\obj\Release\net9.0-windows\
+D:\TestToys\Octopus\OctopusPet\obj\Release\net9.0-windows\
 OctopusPet
 none
 false
 TRACE;RELEASE;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-D:\TestToys\OctopusPet\App.xaml
+D:\TestToys\Octopus\OctopusPet\App.xaml
 11407045341
 
-31072352947
+42088075954
 210-386044313
 MainWindow.xaml;
 

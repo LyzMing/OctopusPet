@@ -1,10 +1,83 @@
-09:42:46.549 App.OnStartup
-09:42:46.593 MainWindow ctor start
-09:42:46.800 MainWindow ctor sprites loaded
-09:42:46.801 MainWindow ctor done
-09:43:12.009 App.OnStartup
-09:43:12.049 MainWindow ctor start
-09:43:12.246 MainWindow ctor sprites loaded
-09:43:12.248 MainWindow ctor done
-10:01:19.819 MainWindow.OnClosed
-10:01:19.822 App.OnExit code=0
+12:52:56.802 App.OnStartup
+12:52:56.850 MainWindow ctor start
+12:52:57.096 MainWindow ctor sprites loaded
+12:52:57.111 MainWindow ctor done
+12:53:35.049 EnterSinging peak=0.090
+12:53:56.559 ExitSinging
+12:54:11.347 EnterSinging peak=1.000
+12:54:13.750 EnterRotating peak=1.000
+12:54:51.832 ExitRotating toNormal=True
+12:55:14.986 EnterSinging peak=1.000
+12:55:17.385 EnterRotating peak=1.000
+12:55:25.429 EnterSinging peak=0.990
+12:55:27.837 EnterRotating peak=0.985
+12:55:45.477 EnterSinging peak=1.000
+12:55:47.880 EnterRotating peak=1.000
+12:55:53.884 ExitRotating toNormal=True
+12:56:09.938 EnterSinging peak=1.000
+12:56:12.337 EnterRotating peak=1.000
+12:56:22.768 EnterSinging peak=1.000
+12:56:25.175 EnterRotating peak=0.979
+12:56:41.255 ExitRotating toNormal=True
+13:00:51.429 EnterSinging peak=0.123
+13:01:22.127 EnterSinging peak=0.221
+13:01:30.806 ExitSinging
+13:01:43.659 EnterSinging peak=0.191
+13:03:01.261 EnterRotating peak=0.650
+13:03:13.283 ExitRotating toNormal=False
+13:03:15.781 EnterRotating peak=0.830
+13:03:21.773 ExitRotating toNormal=False
+13:03:50.607 EnterRotating peak=0.404
+13:03:54.612 ExitRotating toNormal=False
+13:04:10.675 EnterRotating peak=0.334
+13:04:12.665 ExitRotating toNormal=False
+13:04:26.144 EnterRotating peak=0.441
+13:04:42.176 ExitRotating toNormal=False
+13:05:39.813 EnterRotating peak=0.492
+13:05:43.830 ExitRotating toNormal=False
+13:06:00.654 ExitSinging
+13:06:09.580 EnterSinging peak=0.585
+13:06:57.619 EnterRotating peak=0.426
+13:07:15.763 ExitRotating toNormal=False
+13:07:36.060 EnterRotating peak=0.427
+13:07:50.122 ExitRotating toNormal=False
+13:07:57.740 EnterRotating peak=0.426
+13:08:31.888 ExitRotating toNormal=False
+13:08:34.193 ExitSinging
+13:12:05.651 MainWindow.OnClosed
+13:12:05.654 App.OnExit code=0
+13:13:12.504 App.OnStartup
+13:13:12.537 MainWindow ctor start
+13:13:12.703 MainWindow ctor sprites loaded
+13:13:12.713 MusicDetector init failed: Unable to cast COM object of type 'System.__ComObject' to interface type 'OctopusPet.IMMDeviceCollection'. This operation failed because the QueryInterface call on the COM component for the interface with IID '{0BD7A9BE-37D4-4659-8605-E910D61F54BF}' failed due to the following error: 不支持此接口 (0x80004002 (E_NOINTERFACE)).
+13:13:12.714 MainWindow ctor done
+13:15:04.503 App.OnStartup
+13:15:04.536 MainWindow ctor start
+13:15:04.703 MainWindow ctor sprites loaded
+13:15:04.710 MusicDetector init failed: Unable to cast COM object of type 'System.__ComObject' to interface type 'OctopusPet.IMMDeviceCollection'. This operation failed because the QueryInterface call on the COM component for the interface with IID '{0BD7A9BE-37D4-4659-8605-E910D61F54BF}' failed due to the following error: 不支持此接口 (0x80004002 (E_NOINTERFACE)).
+13:15:04.711 MainWindow ctor done
+13:19:26.454 App.OnStartup
+13:19:26.486 MainWindow ctor start
+13:19:26.655 MainWindow ctor sprites loaded
+13:19:26.663 MusicDetector init failed: Unable to cast COM object of type 'System.__ComObject' to interface type 'OctopusPet.IMMDeviceCollection'. This operation failed because the QueryInterface call on the COM component for the interface with IID '{0BD7A9BE-37D4-4659-8605-E910D61F54BF}' failed due to the following error: 不支持此接口 (0x80004002 (E_NOINTERFACE)).
+13:19:26.664 MainWindow ctor done
+13:38:17.693 App.OnStartup
+13:38:17.726 MainWindow ctor start
+13:38:17.896 MainWindow ctor sprites loaded
+13:38:17.904 MusicDetector: default audio device = 'Unknown'
+13:38:17.906 MainWindow ctor done
+13:38:20.317 EnterSinging peak=0.455
+13:38:22.639 EnterRotating peak=0.657
+13:38:24.648 ExitRotating toNormal=False
+13:38:28.488 EnterRotating peak=0.682
+13:38:30.514 ExitRotating toNormal=False
+13:38:37.157 EnterRotating peak=0.589
+13:39:23.602 App.OnStartup
+13:39:23.634 MainWindow ctor start
+13:39:23.802 MainWindow ctor sprites loaded
+13:39:23.810 MusicDetector: default audio device = 'Unknown'
+13:39:23.812 MainWindow ctor done
+13:39:26.198 EnterSinging peak=0.578
+13:39:28.592 EnterRotating peak=0.685
+13:40:00.664 ExitRotating toNormal=False
+13:40:11.661 EnterRotating peak=0.671

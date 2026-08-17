@@ -42,6 +42,15 @@ public partial class MainWindow : Window
     private const int WakingTransMs = 600;           // 结束睡觉：过渡身体时长
     private const int WakingNormalClosedMs = 600;    // 结束睡觉：常态闭眼时长
     private const int ZzzMs = 1200;                  // 每个 z 的显示时长
+    private const float MusicLowThreshold = 0.02f;   // 音乐音量小阈值：进入唱歌
+    private const float MusicHighThreshold = 0.30f;  // 音乐音量高阈值：进入旋转唱歌
+    private const double MusicDelaySec = 2.0;        // 音乐状态切换的延迟生效秒数（期间回落则取消）
+    private const double MusicPollMs = 200;          // 音量轮询间隔
+    private const int RotationFrameMs = 240;         // 旋转每帧时长（营造转动速度）
+    private const double MouthPhaseMinSec = 1.5;     // 嘴巴出现/消失阶段最短时长
+    private const double MouthPhaseMaxSec = 3.5;     // 嘴巴出现/消失阶段最长时长
+    private const double MouthChance = 0.6;          // 嘴巴阶段开启概率（有几率显示嘴巴）
+    private const int MouthFrameMs = 160;            // 嘴巴帧（张嘴闭嘴）切换间隔
     // ---------------------------------
 
     private enum EyeState { Open, Closed, Blink }
@@ -55,7 +64,14 @@ public partial class MainWindow : Window
         WakingSleepEyes,     // 结束睡觉第2步：睡觉身体 + 睡觉眼睛
         WakingTrans,         // 结束睡觉第3步：过渡身体 + 过渡眼睛
         WakingNormalClosed,  // 结束睡觉第4步：常态身体 + 闭眼
+        Singing,             // 唱歌（低音量）：正面组眼睛，嘴巴周期性出现
+        RotatingSinging,     // 旋转唱歌（高音量）：朝右/朝左循环转圈
     }
+
+    // 旋转序列：步骤 0..7（8 回到 0=正面）
+    // 0=正面 1=半右 2=右 3/4/5=无(后脑勺) 6=左 7=半左
+    private static readonly int[] RotStepToDirRight = { 0, 1, 2, -1, -1, -1, 3, 4 }; // 朝右
+    private static readonly int[] RotStepToDirLeft = { 0, 4, 3, -1, -1, -1, 2, 1 };   // 朝左
 
     private readonly Random _rnd = new();
 
@@ -68,10 +84,33 @@ public partial class MainWindow : Window
     private BitmapImage _trans = null!;                             // 过渡身体+眼睛
     private readonly BitmapImage[] _sleep = new BitmapImage[3];     // 睡觉身体+睡觉眼睛
     private readonly BitmapImage[] _woke = new BitmapImage[3];      // 睡觉身体+刚醒眼睛
+    private readonly BitmapImage[] _none = new BitmapImage[3];      // 无脸身体（后脑勺）
+    private readonly BitmapImage[][] _sEyes = new BitmapImage[5][]; // 唱歌眼睛 [方向0..4][身体]
+    private readonly BitmapImage[][][] _sMouth = new BitmapImage[5][][]; // 唱歌嘴巴 [方向][身体][帧0..2]
 
     private PetState _petState = PetState.Normal;
     private int _body = 0;
     private bool _facingLeft;
+
+    // 音乐检测
+    private MusicDetector? _music;
+    private DateTime _musicLastPoll = DateTime.MinValue;
+    private float _musicPeak;
+
+    // 唱歌状态机（延迟生效）
+    private bool _singDelayArmed;         // 等待进入唱歌
+    private DateTime _singDelayUntil;
+    private bool _rotDelayArmed;          // 等待进入旋转
+    private DateTime _rotDelayUntil;
+    private bool _exitDelayArmed;         // 等待退出唱歌/旋转
+    private DateTime _exitDelayUntil;
+    private bool _exitToNormalOnly;       // 退出后直接回常态（音量<低阈值）
+    private int _rotStep;                 // 旋转当前帧 0..7
+    private DateTime _rotNext;
+    private bool _mouthOn;                // 嘴巴是否显示
+    private int _mouthFrame;              // 嘴巴帧 0..2
+    private DateTime _mouthPhaseNext;     // 下一次嘴部开/关切换
+    private DateTime _mouthFrameNext;     // 下一次嘴巴帧切换
 
     // 眼睛状态机
     private EyeState _eyeState = EyeState.Open;
@@ -113,6 +152,9 @@ public partial class MainWindow : Window
         Top = wa.Bottom - SpriteH - 20 - _rnd.NextDouble() * 120;
         ClampToWorkArea();
 
+        _music = new MusicDetector();
+        _musicLastPoll = DateTime.UtcNow;
+
         _timer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(TickMs) };
         _timer.Tick += OnTick;
         _timer.Start();
@@ -126,10 +168,13 @@ public partial class MainWindow : Window
     protected override void OnClosed(EventArgs e)
     {
         App.Log("MainWindow.OnClosed");
+        _music?.Dispose();
         base.OnClosed(e);
     }
 
     // ---------- 精灵加载 ----------
+    private static readonly string[] DirTags = { "front", "hr", "r", "l", "hl" };
+
     private void LoadSprites()
     {
         for (int b = 0; b < 3; b++)
@@ -141,6 +186,21 @@ public partial class MainWindow : Window
             _nT2[b] = Load($"sprites/n_t2_{b + 1}.png");
             _sleep[b] = Load($"sprites/sleep{b + 1}.png");
             _woke[b] = Load($"sprites/woke{b + 1}.png");
+            _none[b] = Load($"sprites/none{b + 1}.png");
+        }
+        for (int d = 0; d < 5; d++)
+        {
+            _sEyes[d] = new BitmapImage[3];
+            _sMouth[d] = new BitmapImage[3][];
+            for (int b = 0; b < 3; b++)
+            {
+                _sEyes[d][b] = Load($"sprites/s_{DirTags[d]}_{b + 1}.png");
+                _sMouth[d][b] = new BitmapImage[3];
+                for (int m = 0; m < 3; m++)
+                {
+                    _sMouth[d][b][m] = Load($"sprites/s_{DirTags[d]}_{b + 1}_m{m + 1}.png");
+                }
+            }
         }
         _trans = Load("sprites/trans.png");
         Z1Img.Source = Load("sprites/z1.png");
@@ -230,7 +290,21 @@ public partial class MainWindow : Window
                     ScheduleEyeOpen();
                 }
                 break;
+
+            case PetState.Singing:
+                UpdateBody(BodySwitchChance);
+                UpdateMovement(now, dt);   // 唱歌时仍可走动（旋转才停止）
+                UpdateMouth(now);
+                break;
+
+            case PetState.RotatingSinging:
+                UpdateBody(SleepBodySwitchChance); // 旋转时抖动略缓，突出转动
+                UpdateRotating(now);
+                UpdateMouth(now);
+                break;
         }
+
+        UpdateMusic(now);
 
         ApplySprite();
     }
@@ -304,6 +378,206 @@ public partial class MainWindow : Window
         {
             _tongueFrame ^= 1;
             _tongueNext = now.AddMilliseconds(TongueSwingMs);
+        }
+    }
+
+    // ---------- 音乐检测与唱歌状态 ----------
+    private void UpdateMusic(DateTime now)
+    {
+        // 仅在常态/唱歌/旋转唱歌时检测（睡觉、过渡等不响应音乐）
+        if (_petState is not (PetState.Normal or PetState.Singing or PetState.RotatingSinging)) return;
+        if (_music == null) return;
+        if ((now - _musicLastPoll).TotalMilliseconds < MusicPollMs) return;
+        _musicLastPoll = now;
+        _musicPeak = _music.GetPeak();
+
+        bool aboveLow = _musicPeak >= MusicLowThreshold;
+        bool aboveHigh = _musicPeak >= MusicHighThreshold;
+
+        switch (_petState)
+        {
+            case PetState.Normal:
+                if (!aboveLow) { _singDelayArmed = false; return; }
+                if (!_singDelayArmed)
+                {
+                    _singDelayArmed = true;
+                    _singDelayUntil = now.AddSeconds(MusicDelaySec);
+                }
+                else if (now >= _singDelayUntil)
+                {
+                    _singDelayArmed = false;
+                    EnterSinging(now);
+                }
+                break;
+
+            case PetState.Singing:
+                // 进入旋转（音量 ≥ 高阈值，延迟生效，期间回落取消）
+                if (aboveHigh)
+                {
+                    if (!_rotDelayArmed)
+                    {
+                        _rotDelayArmed = true;
+                        _rotDelayUntil = now.AddSeconds(MusicDelaySec);
+                    }
+                    else if (now >= _rotDelayUntil)
+                    {
+                        _rotDelayArmed = false;
+                        EnterRotating(now);
+                    }
+                }
+                else
+                {
+                    _rotDelayArmed = false;
+                    // 退出唱歌（音量 < 低阈值，延迟生效，期间回升取消）
+                    if (!aboveLow)
+                    {
+                        if (!_exitDelayArmed)
+                        {
+                            _exitDelayArmed = true;
+                            _exitDelayUntil = now.AddSeconds(MusicDelaySec);
+                        }
+                        else if (now >= _exitDelayUntil)
+                        {
+                            _exitDelayArmed = false;
+                            ExitSinging();
+                        }
+                    }
+                    else
+                    {
+                        _exitDelayArmed = false;
+                    }
+                }
+                break;
+
+            case PetState.RotatingSinging:
+                if (aboveHigh)
+                {
+                    _exitDelayArmed = false; // 音量回升，取消退出
+                }
+                else
+                {
+                    if (!_exitDelayArmed)
+                    {
+                        _exitDelayArmed = true;
+                        _exitDelayUntil = now.AddSeconds(MusicDelaySec);
+                        _exitToNormalOnly = !aboveLow; // 低于低阈值则直接回常态，否则回正面唱歌
+                    }
+                    else if (now >= _exitDelayUntil && _rotStep == 0)
+                    {
+                        // 延迟已到 + 旋转到正面 → 退出
+                        _exitDelayArmed = false;
+                        ExitRotating();
+                    }
+                }
+                break;
+        }
+    }
+
+    private void EnterSinging(DateTime now)
+    {
+        App.Log($"EnterSinging peak={_musicPeak:F3}");
+        _petState = PetState.Singing;
+        _tongueActive = false;
+        _rotDelayArmed = _exitDelayArmed = false;
+        _mouthOn = false;
+        _mouthFrame = 0;
+        _mouthPhaseNext = now.AddMilliseconds(1000 * (MouthPhaseMinSec + _rnd.NextDouble() * (MouthPhaseMaxSec - MouthPhaseMinSec)));
+    }
+
+    private void EnterRotating(DateTime now)
+    {
+        App.Log($"EnterRotating peak={_musicPeak:F3}");
+        _petState = PetState.RotatingSinging;
+        _moving = false;              // 旋转时停止移动
+        _rotDelayArmed = false;
+        _exitDelayArmed = false;
+        _rotStep = 0;                 // 从正面开始
+        _rotNext = now.AddMilliseconds(RotationFrameMs);
+        _mouthOn = false;
+        _mouthFrame = 0;
+        _mouthPhaseNext = now.AddMilliseconds(1000 * (MouthPhaseMinSec + _rnd.NextDouble() * (MouthPhaseMaxSec - MouthPhaseMinSec)));
+        PetImage.RenderTransform = null; // 旋转时用朝向画稿本身，关闭镜像翻转
+    }
+
+    private void ExitSinging()
+    {
+        App.Log("ExitSinging");
+        _petState = PetState.Normal;
+        _mouthOn = false;
+        ScheduleIdle();
+        ScheduleEyeOpen();
+    }
+
+    private void ExitRotating()
+    {
+        App.Log($"ExitRotating toNormal={_exitToNormalOnly}");
+        if (_exitToNormalOnly)
+        {
+            _petState = PetState.Normal;
+            ScheduleIdle();
+            ScheduleEyeOpen();
+        }
+        else
+        {
+            _petState = PetState.Singing; // 回正面唱歌
+            _mouthOn = false;
+            _mouthFrame = 0;
+        }
+        // 恢复翻转（旋转时关闭了镜像，回到常态后按朝向恢复）
+        SetFacing(_facingLeft);
+    }
+
+    // 旋转：按朝向往正转/反转推进帧，退出需在正面
+    private void UpdateRotating(DateTime now)
+    {
+        if (now < _rotNext) return;
+        _rotNext = now.AddMilliseconds(RotationFrameMs);
+        _rotStep++;
+        if (_rotStep > 7) _rotStep = 0; // 8 回到 0（正面）
+        // 若退出已挂起且转回正面 → 立即退出
+        if (_exitDelayArmed && _rotStep == 0)
+        {
+            _exitDelayArmed = false;
+            ExitRotating();
+        }
+    }
+
+    // 嘴巴：周期性出现/消失；出现时嘴巴帧 1→2→3 循环（张嘴闭嘴）
+    private void UpdateMouth(DateTime now)
+    {
+        if (now >= _mouthPhaseNext)
+        {
+            if (_mouthOn)
+            {
+                _mouthOn = false;
+                _mouthFrame = 0;
+            }
+            else
+            {
+                _mouthOn = _rnd.NextDouble() < MouthChance;
+                if (_mouthOn) _mouthFrame = 0;
+            }
+            _mouthPhaseNext = now.AddMilliseconds(1000 * (MouthPhaseMinSec + _rnd.NextDouble() * (MouthPhaseMaxSec - MouthPhaseMinSec)));
+            return;
+        }
+        if (_mouthOn && now >= _mouthFrameNext)
+        {
+            _mouthFrame = (_mouthFrame + 1) % 3;
+            _mouthFrameNext = now.AddMilliseconds(MouthFrameMs);
+        }
+    }
+
+    // 点击或拖拽 → 立即退出唱歌状态（不等待旋转到正面）
+    private void ExitSingingImmediately()
+    {
+        if (_petState is PetState.Singing or PetState.RotatingSinging)
+        {
+            _singDelayArmed = _rotDelayArmed = _exitDelayArmed = false;
+            _mouthOn = false;
+            _petState = PetState.Normal;
+            ScheduleIdle();
+            ScheduleEyeOpen();
+            SetFacing(_facingLeft);
         }
     }
 
@@ -439,11 +713,25 @@ public partial class MainWindow : Window
             case PetState.WakingJustWoke:
                 src = _woke[_body];
                 break;
+            case PetState.Singing:
+                src = SingSprite(0); // 正面组
+                break;
+            case PetState.RotatingSinging:
+                int dir = (_facingLeft ? RotStepToDirLeft : RotStepToDirRight)[_rotStep];
+                src = dir < 0 ? _none[_body] : SingSprite(dir); // 无 = 后脑勺
+                break;
             default:
                 src = _nOpen[_body];
                 break;
         }
         PetImage.Source = src;
+    }
+
+    // 唱歌精灵：有嘴巴时取当前方向组内嘴巴帧，否则只取眼睛
+    private BitmapImage SingSprite(int dir)
+    {
+        if (_mouthOn) return _sMouth[dir][_body][_mouthFrame];
+        return _sEyes[dir][_body];
     }
 
     private void ClampToWorkArea()
@@ -500,6 +788,8 @@ public partial class MainWindow : Window
 
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
+        // 点击/拖拽 → 立即退出唱歌状态
+        ExitSingingImmediately();
         // 只有完全回到常态状态才能拖动（睡觉及过渡期间禁用）
         if (_petState != PetState.Normal)
         {
@@ -512,6 +802,8 @@ public partial class MainWindow : Window
 
     private void OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
     {
+        // 点击 → 立即退出唱歌状态
+        ExitSingingImmediately();
         // 只有常态才能框选截图（睡觉及过渡期间禁用，右键仍用于菜单）
         if (_petState != PetState.Normal)
         {

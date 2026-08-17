@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\TestToys\\OctopusPet\\OctopusPet.csproj": {}
+    "D:\\TestToys\\Octopus\\OctopusPet\\OctopusPet.csproj": {}
   },
   "projects": {
-    "D:\\TestToys\\OctopusPet\\OctopusPet.csproj": {
+    "D:\\TestToys\\Octopus\\OctopusPet\\OctopusPet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\TestToys\\OctopusPet\\OctopusPet.csproj",
+        "projectUniqueName": "D:\\TestToys\\Octopus\\OctopusPet\\OctopusPet.csproj",
         "projectName": "OctopusPet",
-        "projectPath": "D:\\TestToys\\OctopusPet\\OctopusPet.csproj",
+        "projectPath": "D:\\TestToys\\Octopus\\OctopusPet\\OctopusPet.csproj",
         "packagesPath": "C:\\Users\\34607\\.nuget\\packages\\",
-        "outputPath": "D:\\TestToys\\OctopusPet\\obj\\",
+        "outputPath": "D:\\TestToys\\Octopus\\OctopusPet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\34607\\AppData\\Roaming\\NuGet\\NuGet.Config",

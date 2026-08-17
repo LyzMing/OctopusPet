@@ -51,6 +51,8 @@ public partial class MainWindow : Window
     private const double MouthPhaseMaxSec = 3.5;     // 嘴巴出现/消失阶段最长时长
     private const double MouthChance = 0.6;          // 嘴巴阶段开启概率（有几率显示嘴巴）
     private const int MouthFrameMs = 160;            // 嘴巴帧（张嘴闭嘴）切换间隔
+    private const double GrabDelayMs = 500;          // 抓鼠标延迟触发时间
+    private const int GrabFrameMs = 120;             // 抓鼠标动画帧间隔
     // ---------------------------------
 
     private enum EyeState { Open, Closed, Blink }
@@ -66,6 +68,11 @@ public partial class MainWindow : Window
         WakingNormalClosed,  // 结束睡觉第4步：常态身体 + 闭眼
         Singing,             // 唱歌（低音量）：正面组眼睛，嘴巴周期性出现
         RotatingSinging,     // 旋转唱歌（高音量）：朝右/朝左循环转圈
+        GrabMouseEyes,       // 抓鼠标第1步：常态身体 + 激动眼睛
+        GrabMouseTrans,      // 抓鼠标第2步：过渡身体 + 激动眼睛
+        GrabMouse,           // 抓鼠标第3步：1-2-3-2-1 循环
+        GrabMouseExitTrans,  // 抓鼠标退出：等待回到身体1，过渡身体 + 激动眼睛
+        GrabMouseExitEyes,   // 抓鼠标退出：常态身体 + 激动眼睛（短暂）
     }
 
     // 旋转序列：步骤 0..7（8 回到 0=正面）
@@ -81,6 +88,8 @@ public partial class MainWindow : Window
     private readonly BitmapImage[] _nExcited = new BitmapImage[3];  // 激动眼睛（拖动时）
     private readonly BitmapImage[] _nT1 = new BitmapImage[3];       // 闭眼+舌头1
     private readonly BitmapImage[] _nT2 = new BitmapImage[3];       // 闭眼+舌头2
+    private readonly BitmapImage[] _nGrab = new BitmapImage[3];     // 抓鼠标身体+激动眼睛
+    private BitmapImage _nGrabTrans = null!;                       // 抓鼠标过渡身体+激动眼睛
     private BitmapImage _trans = null!;                             // 过渡身体+眼睛
     private readonly BitmapImage[] _sleep = new BitmapImage[3];     // 睡觉身体+睡觉眼睛
     private readonly BitmapImage[] _woke = new BitmapImage[3];      // 睡觉身体+刚醒眼睛
@@ -121,6 +130,13 @@ public partial class MainWindow : Window
     private bool _tongueActive;
     private int _tongueFrame;
     private DateTime _tongueNext = DateTime.MinValue;
+
+    // 抓鼠标
+    private bool _mouseHover;              // 鼠标是否悬停在桌宠区域
+    private DateTime _grabDelayUntil = DateTime.MinValue; // 延迟触发时间
+    private int _grabFrame = 0;            // 抓鼠标身体帧 0-4 (对应 1-2-3-2-1)
+    private DateTime _grabNextFrame = DateTime.MinValue;
+    private const int GrabTransMs = 200;   // 过渡动画时长
 
     // 阶段（进入/结束睡觉的过渡、zzz）
     private DateTime _phaseUntil = DateTime.MinValue;
@@ -184,6 +200,8 @@ public partial class MainWindow : Window
             _nExcited[b] = Load($"sprites/n_excited{b + 1}.png");
             _nT1[b] = Load($"sprites/n_t1_{b + 1}.png");
             _nT2[b] = Load($"sprites/n_t2_{b + 1}.png");
+            _nGrab[b] = Load($"sprites/n_grab{b + 1}.png");
+        _nGrabTrans = Load("sprites/n_grab_trans.png");
             _sleep[b] = Load($"sprites/sleep{b + 1}.png");
             _woke[b] = Load($"sprites/woke{b + 1}.png");
             _none[b] = Load($"sprites/none{b + 1}.png");
@@ -235,6 +253,12 @@ public partial class MainWindow : Window
                 UpdateEyes(now);
                 UpdateTongue(now);
                 UpdateMovement(now, dt);
+                // 检查鼠标悬停延迟触发
+                if (_mouseHover && _grabDelayUntil != DateTime.MinValue && now >= _grabDelayUntil)
+                {
+                    _grabDelayUntil = DateTime.MinValue;
+                    EnterGrabMouse();
+                }
                 break;
 
             case PetState.SleepStartClosed:
@@ -301,6 +325,47 @@ public partial class MainWindow : Window
                 UpdateBody(SleepBodySwitchChance); // 旋转时抖动略缓，突出转动
                 UpdateRotating(now);
                 UpdateMouth(now);
+                break;
+
+            case PetState.GrabMouseEyes:
+                // 第1步：常态身体 + 激动眼睛（短暂）
+                if (now >= _phaseUntil)
+                {
+                    _petState = PetState.GrabMouseTrans;
+                    _phaseUntil = now.AddMilliseconds(GrabTransMs);
+                }
+                break;
+
+            case PetState.GrabMouseTrans:
+                // 第2步：过渡身体 + 激动眼睛
+                if (now >= _phaseUntil)
+                {
+                    _petState = PetState.GrabMouse;
+                    _grabFrame = 0;
+                    _grabNextFrame = now.AddMilliseconds(GrabFrameMs);
+                }
+                break;
+
+            case PetState.GrabMouse:
+                UpdateGrabMouse(now);
+                break;
+
+            case PetState.GrabMouseExitTrans:
+                // 退出过渡：继续动画，等待回到身体1
+                UpdateGrabMouse(now);
+                if (_grabFrame == 0)
+                {
+                    _petState = PetState.GrabMouseExitEyes;
+                    _phaseUntil = now.AddMilliseconds(GrabTransMs);
+                }
+                break;
+
+            case PetState.GrabMouseExitEyes:
+                // 退出：常态身体 + 激动眼睛（短暂）
+                if (now >= _phaseUntil)
+                {
+                    ExitGrabMouse();
+                }
                 break;
         }
 
@@ -397,8 +462,8 @@ public partial class MainWindow : Window
         switch (_petState)
         {
             case PetState.Normal:
-                // 拖动时不进入唱歌状态，保持激动眼睛
-                if (_dragging) { _singDelayArmed = false; return; }
+                // 拖动或鼠标悬停时不进入唱歌状态
+                if (_dragging || _mouseHover) { _singDelayArmed = false; return; }
                 if (!aboveLow) { _singDelayArmed = false; return; }
                 if (!_singDelayArmed)
                 {
@@ -583,6 +648,39 @@ public partial class MainWindow : Window
         }
     }
 
+    // ---------- 抓鼠标 ----------
+    private void UpdateGrabMouse(DateTime now)
+    {
+        if (now >= _grabNextFrame)
+        {
+            // 1-2-3-2-1 循环：0→1→2→3→4 对应 身体1→2→3→2→1
+            _grabFrame = (_grabFrame + 1) % 5;
+            _grabNextFrame = now.AddMilliseconds(GrabFrameMs);
+        }
+    }
+
+    private void EnterGrabMouse()
+    {
+        // 第1步：常态身体 + 激动眼睛
+        _petState = PetState.GrabMouseEyes;
+        _phaseUntil = DateTime.UtcNow.AddMilliseconds(GrabTransMs);
+    }
+
+    private void BeginExitGrabMouse()
+    {
+        // 开始退出：等待回到身体1，然后过渡
+        _petState = PetState.GrabMouseExitTrans;
+        _phaseUntil = DateTime.UtcNow.AddMilliseconds(GrabTransMs * 3); // 给足够时间回到身体1
+    }
+
+    private void ExitGrabMouse()
+    {
+        _petState = PetState.Normal;
+        _grabFrame = 0;
+        ScheduleIdle();
+        ScheduleEyeOpen();
+    }
+
     // ---------- 睡觉 / 醒来 ----------
     private void StartSleep()
     {
@@ -722,6 +820,21 @@ public partial class MainWindow : Window
                 int dir = (_facingLeft ? RotStepToDirLeft : RotStepToDirRight)[_rotStep];
                 src = dir < 0 ? _none[_body] : SingSprite(dir); // 无 = 后脑勺
                 break;
+            case PetState.GrabMouseEyes:
+            case PetState.GrabMouseExitEyes:
+                // 第1步/退出：常态身体 + 激动眼睛
+                src = _nExcited[_body];
+                break;
+            case PetState.GrabMouseTrans:
+            case PetState.GrabMouseExitTrans:
+                // 第2步/退出过渡：过渡身体 + 激动眼睛
+                src = _nGrabTrans;
+                break;
+            case PetState.GrabMouse:
+                // 第3步：1-2-3-2-1 循环
+                int grabIdx = _grabFrame < 3 ? _grabFrame : 4 - _grabFrame;
+                src = _nGrab[grabIdx];
+                break;
             default:
                 src = _nOpen[_body];
                 break;
@@ -788,10 +901,39 @@ public partial class MainWindow : Window
         CaptureMouse();
     }
 
+    // 鼠标悬停：延迟触发抓鼠标
+    private void OnMouseEnter(object sender, MouseEventArgs e)
+    {
+        if (_petState == PetState.Normal && !_dragging)
+        {
+            _mouseHover = true;
+            _grabDelayUntil = DateTime.UtcNow.AddMilliseconds(GrabDelayMs);
+        }
+    }
+
+    private void OnMouseLeave(object sender, MouseEventArgs e)
+    {
+        _mouseHover = false;
+        _grabDelayUntil = DateTime.MinValue;
+        // 如果正在抓鼠标，开始退出过渡
+        if (_petState is PetState.GrabMouse or PetState.GrabMouseEyes or PetState.GrabMouseTrans)
+        {
+            BeginExitGrabMouse();
+        }
+    }
+
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         // 点击/拖拽 → 立即退出唱歌状态
         ExitSingingImmediately();
+        // 如果正在抓鼠标相关状态，先退出抓鼠标
+        if (_petState is PetState.GrabMouse or PetState.GrabMouseEyes or PetState.GrabMouseTrans
+            or PetState.GrabMouseExitTrans or PetState.GrabMouseExitEyes)
+        {
+            ExitGrabMouse();
+            _mouseHover = false;
+            _grabDelayUntil = DateTime.MinValue;
+        }
         // 只有完全回到常态状态才能拖动（睡觉及过渡期间禁用）
         if (_petState != PetState.Normal)
         {

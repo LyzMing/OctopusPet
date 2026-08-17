@@ -221,3 +221,28 @@
 16:33:32.877 ExitSinging
 16:33:38.092 MainWindow.OnClosed
 16:33:38.096 App.OnExit code=0
+16:50:53.900 App.OnStartup
+16:50:53.934 MainWindow ctor start
+16:50:54.105 MainWindow ctor sprites loaded
+16:50:54.114 MusicDetector: default audio device = 'Unknown'
+16:50:54.117 MainWindow ctor done
+17:51:07.593 App.OnStartup
+17:51:07.630 MainWindow ctor start
+17:51:07.808 MainWindow ctor sprites loaded
+17:51:07.816 MusicDetector: default audio device = 'Unknown'
+17:51:07.818 MainWindow ctor done
+18:14:07.672 App.OnStartup
+18:14:07.705 MainWindow ctor start
+18:14:07.877 MainWindow ctor sprites loaded
+18:14:07.885 MusicDetector: default audio device = 'Unknown'
+18:14:07.888 MainWindow ctor done
+18:17:21.733 App.OnStartup
+18:17:21.768 MainWindow ctor start
+18:17:21.938 MainWindow ctor sprites loaded
+18:17:21.946 MusicDetector: default audio device = 'Unknown'
+18:17:21.948 MainWindow ctor done
+18:18:55.881 App.OnStartup
+18:18:55.916 MainWindow ctor start
+18:18:56.089 MainWindow ctor sprites loaded
+18:18:56.097 MusicDetector: default audio device = 'Unknown'
+18:18:56.099 MainWindow ctor done

@@ -13,7 +13,9 @@
         MouseMove="OnMouseMove"
         MouseLeftButtonUp="OnMouseLeftButtonUp"
         MouseRightButtonDown="OnMouseRightButtonDown"
-        MouseRightButtonUp="OnMouseRightButtonUp">
+        MouseRightButtonUp="OnMouseRightButtonUp"
+        MouseEnter="OnMouseEnter"
+        MouseLeave="OnMouseLeave">
     <Grid>
         <Image x:Name="PetImage"
                Stretch="Uniform"

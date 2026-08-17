@@ -1,4 +1,3 @@
-[README.md](https://github.com/user-attachments/files/31130693/README.md)
 # 章鱼桌宠 🐙
 
 用你的 `Octopus.psd` 制作的桌面宠物（WPF / C#，.NET 9）。

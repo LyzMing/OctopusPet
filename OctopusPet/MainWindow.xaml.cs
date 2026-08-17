@@ -397,6 +397,8 @@ public partial class MainWindow : Window
         switch (_petState)
         {
             case PetState.Normal:
+                // 拖动时不进入唱歌状态，保持激动眼睛
+                if (_dragging) { _singDelayArmed = false; return; }
                 if (!aboveLow) { _singDelayArmed = false; return; }
                 if (!_singDelayArmed)
                 {

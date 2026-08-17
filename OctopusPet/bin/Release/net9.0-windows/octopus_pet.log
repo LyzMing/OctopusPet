@@ -81,3 +81,143 @@
 13:39:28.592 EnterRotating peak=0.685
 13:40:00.664 ExitRotating toNormal=False
 13:40:11.661 EnterRotating peak=0.671
+13:41:09.889 ExitRotating toNormal=False
+13:41:12.574 EnterRotating peak=0.431
+13:42:40.909 ExitRotating toNormal=False
+13:42:43.166 EnterRotating peak=0.686
+13:42:45.167 ExitRotating toNormal=False
+13:42:55.326 EnterRotating peak=0.545
+13:45:36.534 EnterSinging peak=0.597
+13:45:40.667 EnterRotating peak=0.345
+13:46:04.779 EnterSinging peak=0.505
+13:46:07.124 EnterRotating peak=0.592
+13:46:59.304 ExitRotating toNormal=False
+13:47:05.848 EnterRotating peak=0.356
+13:47:17.900 ExitRotating toNormal=False
+13:47:20.203 ExitSinging
+13:47:23.680 EnterSinging peak=0.174
+13:47:29.492 EnterRotating peak=0.702
+13:49:30.052 ExitRotating toNormal=False
+13:49:37.487 EnterRotating peak=0.683
+13:49:39.509 ExitRotating toNormal=False
+13:49:41.850 EnterRotating peak=0.671
+13:50:54.045 ExitRotating toNormal=False
+13:50:59.851 ExitSinging
+13:51:17.282 EnterSinging peak=0.284
+13:52:12.372 EnterRotating peak=0.434
+13:53:08.444 ExitRotating toNormal=False
+13:53:21.422 EnterRotating peak=0.542
+13:55:05.630 ExitRotating toNormal=False
+13:55:21.531 ExitSinging
+13:55:29.164 EnterSinging peak=0.286
+13:55:53.284 EnterRotating peak=0.696
+13:56:03.320 ExitRotating toNormal=False
+13:56:11.710 EnterRotating peak=0.343
+13:56:15.725 ExitRotating toNormal=False
+13:56:18.040 EnterRotating peak=0.394
+13:57:16.324 ExitRotating toNormal=False
+13:57:22.316 EnterRotating peak=0.604
+13:58:46.654 ExitRotating toNormal=False
+13:58:50.970 EnterRotating peak=0.687
+13:58:52.977 ExitRotating toNormal=False
+13:58:58.789 EnterRotating peak=0.508
+13:59:16.864 ExitRotating toNormal=False
+13:59:26.092 ExitSinging
+13:59:30.655 EnterSinging peak=0.290
+13:59:58.265 EnterRotating peak=0.379
+14:00:00.274 ExitRotating toNormal=False
+14:00:04.715 EnterRotating peak=0.318
+14:00:06.706 ExitRotating toNormal=False
+14:00:22.495 EnterRotating peak=0.482
+14:01:46.643 ExitRotating toNormal=False
+14:01:51.810 EnterRotating peak=0.317
+14:01:53.803 ExitRotating toNormal=False
+14:01:59.394 EnterRotating peak=0.511
+14:02:01.414 ExitRotating toNormal=False
+14:02:10.485 ExitSinging
+14:02:13.314 EnterSinging peak=0.266
+14:02:19.606 EnterRotating peak=0.688
+14:02:43.649 ExitRotating toNormal=False
+14:02:45.954 ExitSinging
+14:03:11.863 EnterSinging peak=0.225
+14:03:25.555 ExitSinging
+14:04:15.048 EnterSinging peak=0.085
+14:04:43.813 EnterRotating peak=0.700
+14:05:02.365 EnterSinging peak=0.706
+14:05:04.733 EnterRotating peak=0.596
+14:05:13.670 EnterSinging peak=0.696
+14:05:16.645 EnterRotating peak=0.582
+14:05:28.256 EnterSinging peak=0.693
+14:05:30.654 EnterRotating peak=0.690
+14:05:36.444 ExitRotating toNormal=False
+14:05:47.220 EnterRotating peak=0.693
+14:05:57.275 ExitRotating toNormal=False
+14:06:05.498 EnterRotating peak=0.690
+14:06:51.959 ExitRotating toNormal=False
+14:06:54.316 EnterRotating peak=0.704
+14:07:10.666 EnterSinging peak=0.717
+14:07:13.044 EnterRotating peak=0.698
+14:07:57.267 ExitRotating toNormal=False
+14:07:59.921 EnterRotating peak=0.658
+14:08:26.068 ExitRotating toNormal=False
+14:08:33.603 EnterRotating peak=0.688
+14:08:56.957 EnterSinging peak=0.683
+14:08:59.349 EnterRotating peak=0.687
+14:09:19.424 ExitRotating toNormal=True
+14:09:21.641 EnterSinging peak=0.087
+14:09:24.924 ExitSinging
+14:09:37.171 EnterSinging peak=0.296
+14:10:07.360 EnterRotating peak=0.709
+14:10:49.361 ExitRotating toNormal=True
+14:11:05.987 EnterSinging peak=0.482
+14:11:36.171 EnterRotating peak=0.729
+14:12:18.173 ExitRotating toNormal=True
+16:17:01.293 EnterSinging peak=0.172
+16:17:25.586 EnterRotating peak=0.434
+16:17:46.859 EnterSinging peak=0.480
+16:17:50.343 EnterRotating peak=0.337
+16:18:52.519 ExitRotating toNormal=False
+16:18:56.858 EnterRotating peak=0.566
+16:20:19.035 ExitRotating toNormal=False
+16:20:23.312 EnterRotating peak=0.595
+16:20:25.314 ExitRotating toNormal=False
+16:20:30.283 EnterRotating peak=0.704
+16:20:52.447 ExitRotating toNormal=False
+16:20:58.493 ExitSinging
+16:21:03.051 EnterSinging peak=0.236
+16:21:30.735 EnterRotating peak=0.379
+16:21:32.759 ExitRotating toNormal=False
+16:21:37.216 EnterRotating peak=0.353
+16:21:39.242 ExitRotating toNormal=False
+16:21:54.990 EnterRotating peak=0.482
+16:23:05.251 ExitRotating toNormal=False
+16:23:10.907 EnterRotating peak=0.406
+16:23:12.912 ExitRotating toNormal=False
+16:23:15.939 EnterRotating peak=0.543
+16:23:19.957 ExitRotating toNormal=False
+16:23:24.237 EnterRotating peak=0.317
+16:23:26.226 ExitRotating toNormal=False
+16:23:43.047 ExitSinging
+16:23:45.655 EnterSinging peak=0.434
+16:23:52.166 EnterRotating peak=0.688
+16:27:14.842 ExitRotating toNormal=False
+16:27:17.062 ExitSinging
+16:27:20.562 EnterSinging peak=0.435
+16:27:22.971 EnterRotating peak=0.588
+16:29:15.267 ExitRotating toNormal=False
+16:29:18.853 ExitSinging
+16:29:22.320 EnterSinging peak=0.694
+16:29:24.720 EnterRotating peak=0.724
+16:32:48.589 App.OnStartup
+16:32:48.622 MainWindow ctor start
+16:32:48.808 MainWindow ctor sprites loaded
+16:32:48.816 MusicDetector: default audio device = 'Unknown'
+16:32:48.818 MainWindow ctor done
+16:32:51.213 EnterSinging peak=0.325
+16:33:04.522 EnterRotating peak=0.423
+16:33:18.249 EnterSinging peak=0.686
+16:33:20.634 EnterRotating peak=0.684
+16:33:30.632 ExitRotating toNormal=False
+16:33:32.877 ExitSinging
+16:33:38.092 MainWindow.OnClosed
+16:33:38.096 App.OnExit code=0

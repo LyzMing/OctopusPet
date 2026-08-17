@@ -949,6 +949,15 @@ public partial class MainWindow : Window
     {
         // 点击 → 立即退出唱歌状态
         ExitSingingImmediately();
+        // 如果正在抓鼠标相关状态，先退出抓鼠标
+        if (_petState is PetState.GrabMouse or PetState.GrabMouseEyes or PetState.GrabMouseTrans
+            or PetState.GrabMouseExitTrans or PetState.GrabMouseExitEyes)
+        {
+            ExitGrabMouse();
+        }
+        // 清除鼠标悬停状态，防止右键拖动时触发抓鼠标
+        _mouseHover = false;
+        _grabDelayUntil = DateTime.MinValue;
         // 只有常态才能框选截图（睡觉及过渡期间禁用，右键仍用于菜单）
         if (_petState != PetState.Normal)
         {

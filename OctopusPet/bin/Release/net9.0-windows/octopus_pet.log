@@ -256,3 +256,13 @@
 18:25:58.638 MainWindow ctor done
 18:26:39.113 MainWindow.OnClosed
 18:26:39.115 App.OnExit code=0
+18:27:43.190 App.OnStartup
+18:27:43.225 MainWindow ctor start
+18:27:43.397 MainWindow ctor sprites loaded
+18:27:43.405 MusicDetector: default audio device = 'Unknown'
+18:27:43.407 MainWindow ctor done
+18:32:44.529 App.OnStartup
+18:32:44.563 MainWindow ctor start
+18:32:44.735 MainWindow ctor sprites loaded
+18:32:44.744 MusicDetector: default audio device = 'Unknown'
+18:32:44.747 MainWindow ctor done

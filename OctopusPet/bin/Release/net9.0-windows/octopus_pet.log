@@ -246,3 +246,13 @@
 18:18:56.089 MainWindow ctor sprites loaded
 18:18:56.097 MusicDetector: default audio device = 'Unknown'
 18:18:56.099 MainWindow ctor done
+18:22:05.957 EnterSinging peak=0.104
+18:22:17.009 EnterSinging peak=0.592
+18:23:02.722 ExitSinging
+18:25:58.421 App.OnStartup
+18:25:58.455 MainWindow ctor start
+18:25:58.627 MainWindow ctor sprites loaded
+18:25:58.635 MusicDetector: default audio device = 'Unknown'
+18:25:58.638 MainWindow ctor done
+18:26:39.113 MainWindow.OnClosed
+18:26:39.115 App.OnExit code=0

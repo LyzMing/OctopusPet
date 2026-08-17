@@ -931,9 +931,10 @@ public partial class MainWindow : Window
             or PetState.GrabMouseExitTrans or PetState.GrabMouseExitEyes)
         {
             ExitGrabMouse();
-            _mouseHover = false;
-            _grabDelayUntil = DateTime.MinValue;
         }
+        // 清除鼠标悬停状态，防止拖动时触发抓鼠标
+        _mouseHover = false;
+        _grabDelayUntil = DateTime.MinValue;
         // 只有完全回到常态状态才能拖动（睡觉及过渡期间禁用）
         if (_petState != PetState.Normal)
         {

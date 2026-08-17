@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OctopusPet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d74a4b924c2498e6f7145e9ffb419e6c114c4e5b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+51052a7cd80f548ef4f852ef2db0fb550bdc2958")]
 [assembly: System.Reflection.AssemblyProductAttribute("OctopusPet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OctopusPet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

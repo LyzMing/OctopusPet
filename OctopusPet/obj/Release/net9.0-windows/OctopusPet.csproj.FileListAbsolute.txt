@@ -37,3 +37,12 @@ D:\TestToys\Octopus\OctopusPet\obj\Release\net9.0-windows\refint\OctopusPet.dll
 D:\TestToys\Octopus\OctopusPet\obj\Release\net9.0-windows\OctopusPet.pdb
 D:\TestToys\Octopus\OctopusPet\obj\Release\net9.0-windows\OctopusPet.genruntimeconfig.cache
 D:\TestToys\Octopus\OctopusPet\obj\Release\net9.0-windows\ref\OctopusPet.dll
+D:\TestToys\Octopus\OctopusPet\bin\Release\net9.0-windows\NAudio.dll
+D:\TestToys\Octopus\OctopusPet\bin\Release\net9.0-windows\NAudio.Asio.dll
+D:\TestToys\Octopus\OctopusPet\bin\Release\net9.0-windows\NAudio.Core.dll
+D:\TestToys\Octopus\OctopusPet\bin\Release\net9.0-windows\NAudio.Midi.dll
+D:\TestToys\Octopus\OctopusPet\bin\Release\net9.0-windows\NAudio.Wasapi.dll
+D:\TestToys\Octopus\OctopusPet\bin\Release\net9.0-windows\NAudio.WinForms.dll
+D:\TestToys\Octopus\OctopusPet\bin\Release\net9.0-windows\NAudio.WinMM.dll
+D:\TestToys\Octopus\OctopusPet\obj\Release\net9.0-windows\OctopusPet.csproj.AssemblyReference.cache
+D:\TestToys\Octopus\OctopusPet\obj\Release\net9.0-windows\OctopusPet.csproj.Up2Date

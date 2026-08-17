@@ -266,3 +266,100 @@
 18:32:44.735 MainWindow ctor sprites loaded
 18:32:44.744 MusicDetector: default audio device = 'Unknown'
 18:32:44.747 MainWindow ctor done
+18:34:56.111 EnterSinging peak=0.068
+18:36:25.420 ExitSinging
+18:42:10.738 App.OnStartup
+18:42:10.771 MainWindow ctor start
+18:42:10.942 MainWindow ctor sprites loaded
+18:42:10.983 MusicDetector: found 4 active audio endpoints
+18:42:11.203 MusicDetector: added endpoint '扬声器 (ToDesk Virtual Audio)'
+18:42:11.464 MusicDetector: added endpoint '耳机 (Redmi Buds 4活力版)'
+18:42:11.758 MusicDetector: added endpoint '扬声器 (Realtek(R) Audio)'
+18:42:11.971 MusicDetector: added endpoint '扬声器 (Steam Streaming Speakers)'
+18:42:11.972 MainWindow ctor done
+18:42:14.378 EnterSinging peak=0.381
+18:42:25.261 EnterRotating peak=0.623
+18:42:29.276 ExitRotating toNormal=False
+18:42:57.762 EnterRotating peak=0.485
+18:43:08.217 EnterSinging peak=0.692
+18:43:11.926 EnterRotating peak=0.349
+18:43:22.046 ExitRotating toNormal=False
+18:43:26.970 ExitSinging
+18:44:11.373 EnterSinging peak=0.370
+18:44:26.377 EnterRotating peak=0.681
+18:44:41.575 EnterSinging peak=0.681
+18:44:44.347 EnterRotating peak=0.667
+18:45:01.359 EnterSinging peak=0.478
+18:45:03.656 EnterRotating peak=0.658
+18:45:15.694 ExitRotating toNormal=False
+18:45:18.033 ExitSinging
+18:45:29.999 EnterSinging peak=0.677
+18:45:32.368 EnterRotating peak=0.560
+18:45:50.469 ExitRotating toNormal=False
+18:45:52.695 ExitSinging
+18:46:19.334 EnterSinging peak=0.390
+18:46:34.205 EnterRotating peak=0.694
+18:46:46.262 ExitRotating toNormal=False
+18:46:50.608 EnterRotating peak=0.683
+18:46:52.646 ExitRotating toNormal=False
+18:46:54.987 EnterRotating peak=0.685
+18:47:23.110 ExitRotating toNormal=False
+18:47:25.333 ExitSinging
+18:51:23.599 EnterSinging peak=0.118
+18:51:50.924 EnterRotating peak=0.464
+18:51:52.935 ExitRotating toNormal=False
+18:52:02.573 ExitSinging
+18:52:05.067 MainWindow.OnClosed
+18:52:05.072 App.OnExit code=0
+18:52:19.147 App.OnStartup
+18:52:19.191 MainWindow ctor start
+18:52:19.409 MainWindow ctor sprites loaded
+18:52:19.420 MusicDetector: found 3 active audio endpoints
+18:52:19.709 MusicDetector: added endpoint '扬声器 (ToDesk Virtual Audio)'
+18:52:20.106 MusicDetector: added endpoint '扬声器 (Realtek(R) Audio)'
+18:52:20.366 MusicDetector: added endpoint '扬声器 (Steam Streaming Speakers)'
+18:52:20.367 MainWindow ctor done
+18:54:25.576 App.OnStartup
+18:54:25.610 MainWindow ctor start
+18:54:25.790 MainWindow ctor sprites loaded
+18:54:25.799 MusicDetector: found 4 active audio endpoints
+18:54:26.033 MusicDetector: added endpoint '扬声器 (ToDesk Virtual Audio)'
+18:54:26.315 MusicDetector: added endpoint '耳机 (Redmi Buds 4活力版)'
+18:54:26.624 MusicDetector: added endpoint '扬声器 (Realtek(R) Audio)'
+18:54:26.839 MusicDetector: added endpoint '扬声器 (Steam Streaming Speakers)'
+18:54:26.840 MainWindow ctor done
+18:54:29.252 EnterSinging peak=0.613
+18:54:31.657 EnterRotating peak=0.620
+18:55:05.914 App.OnStartup
+18:55:05.949 MainWindow ctor start
+18:55:06.123 MainWindow ctor sprites loaded
+18:55:06.131 MusicDetector: found 4 active audio endpoints
+18:55:06.362 MusicDetector: added endpoint '扬声器 (ToDesk Virtual Audio)'
+18:55:06.640 MusicDetector: added endpoint '耳机 (Redmi Buds 4活力版)'
+18:55:06.949 MusicDetector: added endpoint '扬声器 (Realtek(R) Audio)'
+18:55:07.161 MusicDetector: added endpoint '扬声器 (Steam Streaming Speakers)'
+18:55:07.161 MainWindow ctor done
+18:55:09.548 EnterSinging peak=0.697
+18:55:11.947 EnterRotating peak=0.704
+18:55:18.048 EnterSinging peak=0.696
+18:55:19.156 EnterSinging peak=0.675
+18:55:20.443 EnterRotating peak=0.699
+18:55:21.531 EnterRotating peak=0.694
+18:55:40.991 App.OnStartup
+18:55:41.025 MainWindow ctor start
+18:55:41.202 MainWindow ctor sprites loaded
+18:55:41.206 MusicDetector: initialized
+18:55:41.207 MainWindow ctor done
+18:55:43.589 EnterSinging peak=0.628
+18:55:45.982 EnterRotating peak=0.694
+18:56:08.143 ExitRotating toNormal=False
+18:56:10.326 ExitSinging
+18:56:12.692 MainWindow.OnClosed
+18:56:12.697 App.OnExit code=0
+18:56:27.178 App.OnStartup
+18:56:27.213 MainWindow ctor start
+18:56:27.386 MainWindow ctor sprites loaded
+18:56:27.390 MusicDetector: initialized
+18:56:27.391 MainWindow ctor done
+18:56:33.461 EnterSinging peak=0.677
+18:56:35.834 EnterRotating peak=0.624

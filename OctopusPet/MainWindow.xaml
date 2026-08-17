@@ -1,0 +1,36 @@
+<Window x:Class="OctopusPet.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="章鱼桌宠"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Topmost="True"
+        ShowInTaskbar="False"
+        ResizeMode="NoResize"
+        Width="146" Height="128"
+        MouseLeftButtonDown="OnMouseLeftButtonDown"
+        MouseMove="OnMouseMove"
+        MouseLeftButtonUp="OnMouseLeftButtonUp"
+        MouseRightButtonDown="OnMouseRightButtonDown"
+        MouseRightButtonUp="OnMouseRightButtonUp">
+    <Grid>
+        <Image x:Name="PetImage"
+               Stretch="Uniform"
+               RenderOptions.BitmapScalingMode="HighQuality"
+               RenderOptions.EdgeMode="Aliased" />
+        <!-- zzz 覆盖层：独立于章鱼翻转，位置固定 -->
+        <Image x:Name="Z1Img"
+               Margin="77,27,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               Stretch="None" Visibility="Hidden" IsHitTestVisible="False"
+               RenderOptions.BitmapScalingMode="HighQuality" />
+        <Image x:Name="Z2Img"
+               Margin="100,11,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               Stretch="None" Visibility="Hidden" IsHitTestVisible="False"
+               RenderOptions.BitmapScalingMode="HighQuality" />
+        <Image x:Name="Z3Img"
+               Margin="124,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"
+               Stretch="None" Visibility="Hidden" IsHitTestVisible="False"
+               RenderOptions.BitmapScalingMode="HighQuality" />
+    </Grid>
+</Window>

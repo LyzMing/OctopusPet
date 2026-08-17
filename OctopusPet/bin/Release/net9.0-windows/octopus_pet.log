@@ -1,0 +1,10 @@
+09:42:46.549 App.OnStartup
+09:42:46.593 MainWindow ctor start
+09:42:46.800 MainWindow ctor sprites loaded
+09:42:46.801 MainWindow ctor done
+09:43:12.009 App.OnStartup
+09:43:12.049 MainWindow ctor start
+09:43:12.246 MainWindow ctor sprites loaded
+09:43:12.248 MainWindow ctor done
+10:01:19.819 MainWindow.OnClosed
+10:01:19.822 App.OnExit code=0

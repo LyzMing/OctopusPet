@@ -23,8 +23,8 @@ public partial class MainWindow : Window
     private const double SleepBodySwitchChance = 0.12; // 睡觉时抖动频率（略微减小）
     private const double WalkSpeedMin = 45;          // 移动速度下限 px/s
     private const double WalkSpeedMax = 95;          // 移动速度上限 px/s
-    private const double IdleMinSec = 3.0;           // 停留最短时间
-    private const double IdleMaxSec = 8.0;           // 停留最长时间
+    private const double IdleMinSec = 8.0;           // 停留最短时间
+    private const double IdleMaxSec = 15.0;          // 停留最长时间
     private const bool DebugStill = false;           // 【调试】临时禁止游走，正常为 false
     private const double OpenEyeMinSec = 3.0;        // 睁眼最短时长
     private const double OpenEyeMaxSec = 7.0;        // 睁眼最长时长
